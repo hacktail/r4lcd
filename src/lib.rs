@@ -39,10 +39,10 @@ impl Pins {
 pub fn mv_cursor(pins: &mut Pins, direction: &str, line: &str) {
     match direction {
         "next" => {
-            bwrite(pins, "00010000");
+            bwrite(pins, "00010100");
         }
         "prev" => {
-            bwrite(pins, "00010100");
+            bwrite(pins, "00010000");
         }
         _ => {
             println!("Invalid options");
