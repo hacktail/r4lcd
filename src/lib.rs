@@ -36,6 +36,19 @@ impl Pins {
         }
     }
 }
+pub fn mv_cursor(pins: &mut Pins, direction: &str, line: &str) {
+    match direction {
+        "next" => {
+            bwrite(pins, "00010000");
+        }
+        "prev" => {
+            bwrite(pins, "00010100");
+        }
+        _ => {
+            println!("Invalid options");
+        }
+    }
+}
 
 pub fn settings(pins: &mut Pins, cursor: &str, screen: bool) {
     pins.rs.set_low();
