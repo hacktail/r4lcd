@@ -37,6 +37,30 @@ impl Pins {
     }
 }
 
+pub fn settings(pins: &mut Pins, cursor: &str, screen: bool) {
+    pins.rs.set_low();
+
+    match cursor {
+        "off" => {
+            bwrite(pins, "00001100");
+        }
+        "on" => {
+            bwrite(pins, "00001110");
+        }
+        "blink" => {
+            bwrite(pins, "00001111");
+        }
+        _ => {
+            println!("Invalid cursor option: '{}'", screen);
+            println!("Valid cursor options: 'on', 'blink' and 'off' ");
+        }
+    }
+
+    if !screen {
+        bwrite(pins, "00001000");
+    }
+}
+
 pub fn begin(pins: &mut Pins) {
     pins.rs.set_low();
 
