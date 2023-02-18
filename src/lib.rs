@@ -39,7 +39,7 @@ impl Pins {
 pub fn mv_cursor(pins: &mut Pins, direction: &str, line: &str) {
     match direction {
         "next" => {
-            bwrite(pins, "00011100");
+            bwrite(pins, "00010100");
         }
         "prev" => {
             bwrite(pins, "00010000");
