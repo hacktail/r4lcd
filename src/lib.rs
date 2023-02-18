@@ -37,6 +37,7 @@ impl Pins {
     }
 }
 pub fn mv_cursor(pins: &mut Pins, direction: &str, line: &str) {
+    pins.rs.set_low();
     match direction {
         "next" => {
             bwrite(pins, "00010100");
