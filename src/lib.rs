@@ -101,16 +101,15 @@ pub fn write(pins: &mut Pins, text: &str) {
     let binary_text = string_to_binary(text).unwrap();
     for c in binary_text {
         if c.to_string().len() < 7 {
-            println!("00{}", c.to_string().as_str());
             bwrite(pins, format!("00{}", c).as_str());
         } else if c.to_string().len() < 8 {
-            println!("0{}", c.to_string().as_str());
             bwrite(pins, format!("0{}", c).as_str());
         }
     }
 }
 
 pub fn bwrite(pins: &mut Pins, bits: &str) {
+    println!("output: {}", bits);
     if bits.chars().nth(7).unwrap() == '1' {
         pins.d0.set_high();
     } else {
