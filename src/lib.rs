@@ -77,7 +77,7 @@ pub fn settings(pins: &mut Pins, cursor: &str, screen: bool) {
 pub fn begin(pins: &mut Pins) {
     pins.rs.set_low();
 
-    bwrite(pins, "00001000");
+    bwrite(pins, "00001010");
     clear(pins);
     bwrite(pins, "00000010");
     bwrite(pins, "00001100");
