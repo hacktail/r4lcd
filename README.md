@@ -9,11 +9,11 @@ Current functions:
   writing directly to the lcd using binary  
     
 Upcomming functions:  
-  use whatever gpio pins you want
-  multi-display support
-  Full 2-line support
-  moving cursor using coordinates like (2,4)
-  change begin settings
-  
-Funtions that I will add later:
-  4-bit mode
+  use whatever gpio pins you want  
+  multi-display support  
+  Full 2-line support  
+  moving cursor using coordinates like (2,4)  
+  change begin settings  
+    
+Funtions that I will add later:  
+  4-bit mode  
