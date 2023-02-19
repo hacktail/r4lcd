@@ -60,16 +60,17 @@ pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
     } else {
         unsafe {
             while CURSOR_POSITION.0 < x {
-                println!("cursor position = ({},{})", CURSOR_POSITION.0, CURSOR_POSITION.1);
                 pins.rs.set_low();
                 bwrite(pins, "00010100");
                 CURSOR_POSITION.0 += 1;
+                println!("cursor position = ({},{})", CURSOR_POSITION.0, CURSOR_POSITION.1);
             }
             while CURSOR_POSITION.0 > x {
-                println!("cursor position = ({},{})", CURSOR_POSITION.0, CURSOR_POSITION.1);
                 pins.rs.set_low();
                 bwrite(pins, "00010000");
                 CURSOR_POSITION.0 -= 1;
+                println!("cursor position = ({},{})", CURSOR_POSITION.0, CURSOR_POSITION.1);
+
             }
         }
     }
