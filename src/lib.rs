@@ -1,7 +1,7 @@
 use rppal;
 use rppal::gpio::OutputPin;
 
-use ascii_converter::string_to_binary;
+use ascii_converter::*;
 use std::thread::sleep;
 use std::time::Duration;
 pub struct Pins {
@@ -62,58 +62,60 @@ pub fn home(pins: &mut Pins) {
     sleep(Duration::from_millis(2));
 }
 
-pub fn mvcb(pins: &mut Pins)
+pub fn mvc(pins: &mut Pins, x: u8)
 {
     pins.rs.set_low();
-    bwrite(pins, "10000001");
+
+    let uwu = decimals_to_binary(&vec![x]).unwrap();
+    println!("{uwu:?}");
 }
 
-pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
-    if x < 0 || y < 0 {
-        panic!("the coordinates are lower then 0: x={}, y={}", x, y);
-    } else {
-        unsafe {
-            // moving x
-            pins.rs.set_low();
-
-            while CURSOR_POSITION.0 < x {
-                bwrite(pins, "00010100");
-                CURSOR_POSITION.0 += 1;
-                println!(
-                    "cursor position = ({},{})",
-                    CURSOR_POSITION.0, CURSOR_POSITION.1
-                );
-            }
-            while CURSOR_POSITION.0 > x {
-                bwrite(pins, "00010000");
-                CURSOR_POSITION.0 -= 1;
-                println!(
-                    "cursor position = ({},{})",
-                    CURSOR_POSITION.0, CURSOR_POSITION.1
-                );
-            }
-            // moving y
-            if SETTINGS.2 != Settings::DisplayLines(1) {
-                while CURSOR_POSITION.1 < y {
-                    bwrite(pins, "00011100");
-                    CURSOR_POSITION.1 += 1;
-                    println!(
-                        "cursor position = ({},{})",
-                        CURSOR_POSITION.0, CURSOR_POSITION.1
-                    );
-                }
-                while CURSOR_POSITION.1 > y {
-                    bwrite(pins, "00011000");
-                    CURSOR_POSITION.1 -= 1;
-                    println!(
-                        "cursor position = ({},{})",
-                        CURSOR_POSITION.0, CURSOR_POSITION.1
-                    );
-                }
-            }
-        }
-    }
-}
+//pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
+//    if x < 0 || y < 0 {
+//        panic!("the coordinates are lower then 0: x={}, y={}", x, y);
+//    } else {
+//        unsafe {
+//            // moving x
+//            pins.rs.set_low();
+//
+//            while CURSOR_POSITION.0 < x {
+//                bwrite(pins, "00010100");
+//                CURSOR_POSITION.0 += 1;
+//                println!(
+//                    "cursor position = ({},{})",
+//                    CURSOR_POSITION.0, CURSOR_POSITION.1
+//                );
+//            }
+//            while CURSOR_POSITION.0 > x {
+//                bwrite(pins, "00010000");
+//                CURSOR_POSITION.0 -= 1;
+//                println!(
+//                    "cursor position = ({},{})",
+//                    CURSOR_POSITION.0, CURSOR_POSITION.1
+//                );
+//            }
+//            // moving y
+//            if SETTINGS.2 != Settings::DisplayLines(1) {
+//                while CURSOR_POSITION.1 < y {
+//                    bwrite(pins, "00011100");
+//                    CURSOR_POSITION.1 += 1;
+//                    println!(
+//                        "cursor position = ({},{})",
+//                        CURSOR_POSITION.0, CURSOR_POSITION.1
+//                    );
+//                }
+//                while CURSOR_POSITION.1 > y {
+//                    bwrite(pins, "00011000");
+//                    CURSOR_POSITION.1 -= 1;
+//                    println!(
+//                        "cursor position = ({},{})",
+//                        CURSOR_POSITION.0, CURSOR_POSITION.1
+//                    );
+//                }
+//            }
+//        }
+//    }
+//}
 
 
 pub fn settings(pins: &mut Pins, cursor_mode: CursorModes, power: Settings) {
