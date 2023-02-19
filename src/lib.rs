@@ -110,27 +110,27 @@ pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
 }
 
 
-pub fn settings(pins: &mut Pins, cursor: CursorModes, screen: Settings) {
+pub fn settings(pins: &mut Pins, cursor_mode: CursorModes, power: Settings) {
     pins.rs.set_low();
 
-    if screen == Settings::Power(true) {
-        match cursor {
+    if power == Settings::Power(true) {
+        match cursor_mode {
             CursorModes::On => bwrite(pins, "00001110"),
             CursorModes::Blink => bwrite(pins, "00001111"),
             CursorModes::Off => bwrite(pins, "00001100"),
         }
-    } else if screen == Settings::Power(false) {
-        match cursor {
+    } else if power == Settings::Power(false) {
+        match cursor_mode {
             CursorModes::On => bwrite(pins, "00001010"),
             CursorModes::Blink => bwrite(pins, "00001011"),
             CursorModes::Off => bwrite(pins, "00001000"),
         }
     } else {
-        println!("'{screen:?}' is an invalid option")
+        println!("'{power:?}' is an invalid option")
     }
     unsafe {
-        SETTINGS.0 = Settings::Cursor(cursor);
-        SETTINGS.1 = screen;
+        SETTINGS.0 = Settings::Cursor(cursor_mode);
+        SETTINGS.1 = power;
     };
 }
 
