@@ -5,6 +5,9 @@ use ascii_converter::string_to_binary;
 use std::thread::sleep;
 use std::time::Duration;
 
+static CURSOR_POSITION: (i16, i16) = (0,0);
+static SETTINGS: (&str, &str, &str) = ("", "", "");
+
 pub struct Pins {
     pub d0: OutputPin,
     pub d1: OutputPin,
@@ -44,7 +47,8 @@ pub fn mv_cursor(pins: &mut Pins, direction: &str, line: &str) {
             bwrite(pins, "00010000");
         }
         _ => {
-            println!("Invalid options");
+            println!("Invalid option: '{}'", direction);
+            println!("Valid options: 'next' and 'prev'");
         }
     }
 }
@@ -81,7 +85,7 @@ pub fn begin(pins: &mut Pins) {
     bwrite(pins, "00000010");
     bwrite(pins, "00001100");
 
-    println!("finished setting up lcd <begin(&mut pins);> ");
+    println!("finished setting up lcd");
 }
 
 pub fn clear(pins: &mut Pins) {
@@ -89,7 +93,7 @@ pub fn clear(pins: &mut Pins) {
     bwrite(pins, "00000001");
 }
 
-pub fn pulse(pins: &mut Pins) {
+fn pulse(pins: &mut Pins) {
     pins.en.set_high();
     sleep(Duration::from_nanos(340));
     pins.en.set_low();
