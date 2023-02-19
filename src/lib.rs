@@ -20,6 +20,7 @@ pub struct Pins {
     pub rs: OutputPin,
     pub en: OutputPin,
 }
+
 impl Pins {
     pub fn new() -> Self {
         let gpio = rppal::gpio::Gpio::new().expect("death");
@@ -37,25 +38,34 @@ impl Pins {
         }
     }
 }
-pub fn mv_cursor(pins: &mut Pins, direction: &str, line: &str) {
-    pins.rs.set_low();
-    match direction {
-        "next" => {
-            bwrite(pins, "00010100");
-        }
-        "prev" => {
-            bwrite(pins, "00010000");
-        }
-        _ => {
-            println!("Invalid option: '{}'", direction);
-            println!("Valid options: 'next' and 'prev'");
-        }
-    }
-}
+//pub fn mv_cursor(pins: &mut Pins, direction: &str, line: &str) {
+//    pins.rs.set_low();
+//    match direction {
+//        "next" => {
+//            bwrite(pins, "00010100");
+//        }
+//        "prev" => {
+//            bwrite(pins, "00010000");
+//        }
+//        _ => {
+//            println!("Invalid option: '{}'", direction);
+//            println!("Valid options: 'next' and 'prev'");
+//        }
+//    }
+//}
 
-pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
-    unsafe {
-        println!("curpos = ({},{})", CURSOR_POSITION.0, CURSOR_POSITION.1);
+pub unsafe fn mvc(pins: &mut Pins, x: i16, y: i16) {
+    if x < 0 || y < 0 {
+        panic!("the coordinates are lower then 0: x={}, y={}", x, y);
+    } else {
+        while CURSOR_POSITION.0 < x {
+            bwrite(pins, "00010100");
+            CURSOR_POSITION.0 += 1;
+        }
+        while CURSOR_POSITION.0 > x {
+            bwrite(pins, "00010000");
+            CURSOR_POSITION.0 -= 1;
+        }
     }
 }
 
