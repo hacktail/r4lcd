@@ -141,10 +141,10 @@ pub fn begin(pins: &mut Pins, display_lines: i8 /*, bits: i8 */) {
 
     match display_lines {
         1 => {
-            bwrite(pins, "00100000");
+            bwrite(pins, "00110000");
         }
         2 => {
-            bwrite(pins, "00101000");
+            bwrite(pins, "00111000");
         }
         _ => {
             panic!("'{}' is an invalid amount of display_lines", display_lines);
