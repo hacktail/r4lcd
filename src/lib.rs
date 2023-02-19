@@ -89,7 +89,7 @@ pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
             // moving y
             if SETTINGS.2 != Settings::DisplayLines(1) {
                 while CURSOR_POSITION.1 < y {
-                    bwrite(pins, "000111100");
+                    bwrite(pins, "00011100");
                     CURSOR_POSITION.1 += 1;
                     println!(
                         "cursor position = ({},{})",
