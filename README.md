@@ -15,9 +15,10 @@ An unfinished rust library for writing to hd44780 or hd44780 compatible dot matr
 >Upcomming functions:
   >>use whatever gpio pins you want
 
->Funtions that I will add later:  
+>Funtions that I may add later:
   >>4-bit mode  
   >>multi-display support
+  >>suppport for screen with 4 lines ( I'll need an lcd with 4 lines first )
   
 ### How do I add this to my project?
 To add it to your project you'll have to run
