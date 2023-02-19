@@ -6,18 +6,19 @@ An unfinished rust library for writing to hd44780 or hd44780 compatible dot matr
   >>moving cursor  
   >>clear screen  
   >>changing settings  
-  >>writing directly to the lcd using binary  
+  >>writing directly to the lcd using binary
+  >>Full 2-line support
+  >>change begin settings
+  >>moving cursor using coordinates like (2,4)
+
     
->Upcomming functions:  
-  >>use whatever gpio pins you want  
-  >>multi-display support  
-  >>Full 2-line support  
-  >>moving cursor using coordinates like (2,4)  
-  >>change begin settings  
-    
+>Upcomming functions:
+  >>use whatever gpio pins you want
+
 >Funtions that I will add later:  
   >>4-bit mode  
-
+  >>multi-display support
+  
 ### How do I add this to my project?
 To add it to your project you'll have to run
 ```bash
