@@ -137,13 +137,14 @@ pub fn settings(pins: &mut Pins, cursor_mode: CursorModes, power: Settings) {
 pub fn begin(pins: &mut Pins, display_lines: i8 /*, bits: i8 */) {
     pins.rs.set_low();
 
-    Settings::DisplayLines(display_lines);
+    unsafe {SETTINGS.2 = Settings::DisplayLines(display_lines);} 
+
     match display_lines {
         1 => {
-            bwrite(pins, "00001000");
+            bwrite(pins, "00100000");
         }
         2 => {
-            bwrite(pins, "00001010");
+            bwrite(pins, "00101000");
         }
         _ => {
             panic!("'{}' is an invalid amount of display_lines", display_lines);
