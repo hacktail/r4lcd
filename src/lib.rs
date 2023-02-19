@@ -1,9 +1,7 @@
 use rppal;
 use rppal::gpio::OutputPin;
 
-use ascii_converter::*;
-
-use std::error::Error;
+use ascii_converter::string_to_binary;
 use std::thread::sleep;
 use std::time::Duration;
 
