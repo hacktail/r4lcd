@@ -28,8 +28,8 @@ pub enum Settings {
     Power(bool),
     DisplayLines(i8),
 }
+static mut CURSOR_POSITION: (i16, i16) = (0, 0); // (x,y)
 
-pub static mut CURSOR_POSITION: (i16, i16) = (0, 0); // (x,y)
 static mut SETTINGS: (Settings, Settings, Settings) = (
     Settings::Cursor(CursorModes::Off),
     Settings::Power(false),
@@ -53,7 +53,9 @@ impl Pins {
         }
     }
 }
-
+pub fn cursor_position()-> (i16,i16){
+    unsafe {CURSOR_POSITION}
+}
 pub fn home(pins: &mut Pins) {
     pins.rs.set_low();
     bwrite(pins, "00000010");
@@ -106,6 +108,7 @@ pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
         }
     }
 }
+
 
 pub fn settings(pins: &mut Pins, cursor: CursorModes, screen: Settings) {
     pins.rs.set_low();
