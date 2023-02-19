@@ -62,6 +62,12 @@ pub fn home(pins: &mut Pins) {
     sleep(Duration::from_millis(2));
 }
 
+pub fn mvcb(pins: &mut Pins)
+{
+    pins.rs.set_low();
+    bwrite(pins, "10000001");
+}
+
 pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
     if x < 0 || y < 0 {
         panic!("the coordinates are lower then 0: x={}, y={}", x, y);
