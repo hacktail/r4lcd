@@ -54,17 +54,19 @@ impl Pins {
 //    }
 //}
 
-pub unsafe fn mvc(pins: &mut Pins, x: i16, y: i16) {
+pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
     if x < 0 || y < 0 {
         panic!("the coordinates are lower then 0: x={}, y={}", x, y);
     } else {
-        while CURSOR_POSITION.0 < x {
-            bwrite(pins, "00010100");
-            CURSOR_POSITION.0 += 1;
-        }
-        while CURSOR_POSITION.0 > x {
-            bwrite(pins, "00010000");
-            CURSOR_POSITION.0 -= 1;
+        unsafe {
+            while CURSOR_POSITION.0 < x {
+                bwrite(pins, "00010100");
+                CURSOR_POSITION.0 += 1;
+            }
+            while CURSOR_POSITION.0 > x {
+                bwrite(pins, "00010000");
+                CURSOR_POSITION.0 -= 1;
+            }
         }
     }
 }
