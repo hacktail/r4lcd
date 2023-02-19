@@ -5,8 +5,8 @@ use ascii_converter::string_to_binary;
 use std::thread::sleep;
 use std::time::Duration;
 
-static CURSOR_POSITION: (i16, i16) = (0,0);
-static SETTINGS: (&str, &str, &str) = ("", "", "");
+static mut CURSOR_POSITION: (i16, i16) = (0, 0); // (x,y)
+static mut SETTINGS: (&str, &str, &str) = ("", "", "");
 
 pub struct Pins {
     pub d0: OutputPin,
@@ -50,6 +50,12 @@ pub fn mv_cursor(pins: &mut Pins, direction: &str, line: &str) {
             println!("Invalid option: '{}'", direction);
             println!("Valid options: 'next' and 'prev'");
         }
+    }
+}
+
+pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
+    unsafe {
+        println!("curpos = ({},{})", CURSOR_POSITION.0, CURSOR_POSITION.1);
     }
 }
 
@@ -112,6 +118,11 @@ pub fn write(pins: &mut Pins, text: &str) {
 }
 
 pub fn bwrite(pins: &mut Pins, bits: &str) {
+    if pins.rs.is_set_high() {
+        unsafe {
+            CURSOR_POSITION.0 += 1;
+        }
+    }
     println!("output: {}", bits);
     if bits.chars().nth(7).unwrap() == '1' {
         pins.d0.set_high();
