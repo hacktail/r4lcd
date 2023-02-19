@@ -29,7 +29,7 @@ pub enum Settings {
     DisplayLines(i8),
 }
 
-static mut CURSOR_POSITION: (i16, i16) = (0, 0); // (x,y)
+pub static mut CURSOR_POSITION: (i16, i16) = (0, 0); // (x,y)
 static mut SETTINGS: (Settings, Settings, Settings) = (
     Settings::Cursor(CursorModes::Off),
     Settings::Power(false),
