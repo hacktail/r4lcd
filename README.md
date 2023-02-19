@@ -9,7 +9,7 @@ An unfinished rust library for writing to hd44780 or hd44780 compatible dot matr
   >>writing directly to the lcd using binary
   >>Full 2-line support
   >>change begin settings
-  >>moving cursor using coordinates like (2,4)
+  >>moving cursor using coordinates like (2,4) THIS IS CURRENTLY BEING REMADE TO INCREASE SPEED GREATLY. I was just incrementing the cursor position which was really ineffectivte, I am now remaking it so that it just send one command with an address for where the cursor should move
 
     
 >Upcomming functions:
