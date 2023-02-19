@@ -4,10 +4,6 @@ use rppal::gpio::OutputPin;
 use ascii_converter::string_to_binary;
 use std::thread::sleep;
 use std::time::Duration;
-
-static mut CURSOR_POSITION: (i16, i16) = (0, 0); // (x,y)
-static mut SETTINGS: (&str, &str, &str) = ("", "", "");
-
 pub struct Pins {
     pub d0: OutputPin,
     pub d1: OutputPin,
@@ -20,6 +16,22 @@ pub struct Pins {
     pub rs: OutputPin,
     pub en: OutputPin,
 }
+#[derive(Clone, Copy)]
+pub enum CursorModes{
+    On,
+    Blink,
+    Off
+
+}
+#[derive(Clone, Copy)]
+enum Settings{
+    Cursor(CursorModes),
+    Power(bool)
+}
+
+static mut CURSOR_POSITION: (i16, i16) = (0, 0); // (x,y)
+static mut SETTINGS: (Settings, Settings) = (Settings::Cursor(CursorModes::Off), Settings::Power(false));
+
 
 impl Pins {
     pub fn new() -> Self {
@@ -38,21 +50,6 @@ impl Pins {
         }
     }
 }
-//pub fn mv_cursor(pins: &mut Pins, direction: &str, line: &str) {
-//    pins.rs.set_low();
-//    match direction {
-//        "next" => {
-//            bwrite(pins, "00010100");
-//        }
-//        "prev" => {
-//            bwrite(pins, "00010000");
-//        }
-//        _ => {
-//            println!("Invalid option: '{}'", direction);
-//            println!("Valid options: 'next' and 'prev'");
-//        }
-//    }
-//}
 
 pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
     if x < 0 || y < 0 {
@@ -76,28 +73,28 @@ pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
     }
 }
 
-pub fn settings(pins: &mut Pins, cursor: &str, screen: bool) {
+pub fn settings(pins: &mut Pins, cursor: CursorModes, screen: bool) {
     pins.rs.set_low();
 
-    match cursor {
-        "off" => {
-            bwrite(pins, "00001100");
-        }
-        "on" => {
-            bwrite(pins, "00001110");
-        }
-        "blink" => {
-            bwrite(pins, "00001111");
-        }
-        _ => {
-            println!("Invalid cursor option: '{}'", screen);
-            println!("Valid cursor options: 'on', 'blink' and 'off' ");
-        }
-    }
 
-    if !screen {
-        bwrite(pins, "00001000");
+    if screen{
+        match cursor{
+            CursorModes::On => {bwrite(pins, "00001110")},
+            CursorModes::Blink => {bwrite(pins, "00001111")},
+            CursorModes::Off => {bwrite(pins, "00001100")},
+        }
     }
+    else if !screen{
+        match cursor{
+            CursorModes::On => {bwrite(pins, "00001010")},
+            CursorModes::Blink => {bwrite(pins, "00001011")},
+            CursorModes::Off => {bwrite(pins, "00001000")},
+        }
+    }
+    unsafe {
+        SETTINGS.0 = Settings::Cursor(cursor);
+        SETTINGS.1 = Settings::Power(screen);
+    };
 }
 
 pub fn begin(pins: &mut Pins) {
