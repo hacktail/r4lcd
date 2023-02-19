@@ -16,22 +16,25 @@ pub struct Pins {
     pub rs: OutputPin,
     pub en: OutputPin,
 }
-#[derive(Clone, Copy)]
-pub enum CursorModes{
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+pub enum CursorModes {
     On,
     Blink,
-    Off
-
+    Off,
 }
-#[derive(Clone, Copy)]
-enum Settings{
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+pub enum Settings {
     Cursor(CursorModes),
-    Power(bool)
+    Power(bool),
+    DisplayLines(i8),
 }
 
 static mut CURSOR_POSITION: (i16, i16) = (0, 0); // (x,y)
-static mut SETTINGS: (Settings, Settings) = (Settings::Cursor(CursorModes::Off), Settings::Power(false));
-
+static mut SETTINGS: (Settings, Settings, Settings) = (
+    Settings::Cursor(CursorModes::Off),
+    Settings::Power(false),
+    Settings::DisplayLines(1),
+);
 
 impl Pins {
     pub fn new() -> Self {
@@ -51,60 +54,101 @@ impl Pins {
     }
 }
 
+pub fn home(pins: &mut Pins) {
+    pins.rs.set_low();
+    bwrite(pins, "00000010");
+    sleep(Duration::from_millis(2));
+}
+
 pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
     if x < 0 || y < 0 {
         panic!("the coordinates are lower then 0: x={}, y={}", x, y);
     } else {
         unsafe {
+            // moving x
+            pins.rs.set_low();
+
             while CURSOR_POSITION.0 < x {
-                pins.rs.set_low();
                 bwrite(pins, "00010100");
                 CURSOR_POSITION.0 += 1;
-                println!("cursor position = ({},{})", CURSOR_POSITION.0, CURSOR_POSITION.1);
+                println!(
+                    "cursor position = ({},{})",
+                    CURSOR_POSITION.0, CURSOR_POSITION.1
+                );
             }
             while CURSOR_POSITION.0 > x {
-                pins.rs.set_low();
                 bwrite(pins, "00010000");
                 CURSOR_POSITION.0 -= 1;
-                println!("cursor position = ({},{})", CURSOR_POSITION.0, CURSOR_POSITION.1);
-
+                println!(
+                    "cursor position = ({},{})",
+                    CURSOR_POSITION.0, CURSOR_POSITION.1
+                );
+            }
+            // moving y
+            if SETTINGS.2 != Settings::DisplayLines(1) {
+                while CURSOR_POSITION.1 < y {
+                    bwrite(pins, "000111100");
+                    CURSOR_POSITION.1 += 1;
+                    println!(
+                        "cursor position = ({},{})",
+                        CURSOR_POSITION.0, CURSOR_POSITION.1
+                    );
+                }
+                while CURSOR_POSITION.1 > y {
+                    bwrite(pins, "00011000");
+                    CURSOR_POSITION.1 -= 1;
+                    println!(
+                        "cursor position = ({},{})",
+                        CURSOR_POSITION.0, CURSOR_POSITION.1
+                    );
+                }
             }
         }
     }
 }
 
-pub fn settings(pins: &mut Pins, cursor: CursorModes, screen: bool) {
+pub fn settings(pins: &mut Pins, cursor: CursorModes, screen: Settings) {
     pins.rs.set_low();
 
-
-    if screen{
-        match cursor{
-            CursorModes::On => {bwrite(pins, "00001110")},
-            CursorModes::Blink => {bwrite(pins, "00001111")},
-            CursorModes::Off => {bwrite(pins, "00001100")},
+    if screen == Settings::Power(true) {
+        match cursor {
+            CursorModes::On => bwrite(pins, "00001110"),
+            CursorModes::Blink => bwrite(pins, "00001111"),
+            CursorModes::Off => bwrite(pins, "00001100"),
         }
-    }
-    else if !screen{
-        match cursor{
-            CursorModes::On => {bwrite(pins, "00001010")},
-            CursorModes::Blink => {bwrite(pins, "00001011")},
-            CursorModes::Off => {bwrite(pins, "00001000")},
+    } else if screen == Settings::Power(false) {
+        match cursor {
+            CursorModes::On => bwrite(pins, "00001010"),
+            CursorModes::Blink => bwrite(pins, "00001011"),
+            CursorModes::Off => bwrite(pins, "00001000"),
         }
+    } else {
+        println!("'{screen:?}' is an invalid option")
     }
     unsafe {
         SETTINGS.0 = Settings::Cursor(cursor);
-        SETTINGS.1 = Settings::Power(screen);
+        SETTINGS.1 = screen;
     };
 }
 
-pub fn begin(pins: &mut Pins) {
+pub fn begin(pins: &mut Pins, display_lines: i8 /*, bits: i8 */) {
     pins.rs.set_low();
 
-    bwrite(pins, "00001010");
+    Settings::DisplayLines(display_lines);
+    match display_lines {
+        1 => {
+            bwrite(pins, "00001000");
+        }
+        2 => {
+            bwrite(pins, "00001010");
+        }
+        _ => {
+            panic!("'{}' is an invalid amount of display_lines", display_lines);
+        }
+    }
     clear(pins);
-    bwrite(pins, "00000010");
-    bwrite(pins, "00001100");
-
+    home(pins);
+    settings(pins, CursorModes::Off, Settings::Power(true));
     println!("finished setting up lcd");
 }
 
