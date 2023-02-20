@@ -66,8 +66,9 @@ pub fn mvc(pins: &mut Pins, x: u8)
 {
     pins.rs.set_low();
 
-    let uwu = decimals_to_binary(&vec![x]).unwrap();
-    println!("{uwu:?}");
+    let x = decimals_to_binary(&vec![x]).unwrap();
+    let x: String = x.iter().map(ToString::to_string).collect();
+    println!("{x}");
 }
 
 //pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
