@@ -67,7 +67,15 @@ pub fn mvc(pins: &mut Pins, x: u8)
     pins.rs.set_low();
 
     let x = decimals_to_binary(&vec![x]).unwrap();
-    let x: String = x.iter().map(ToString::to_string).collect();
+    let mut x: String = x.iter().map(ToString::to_string).collect();
+    println!("{x}");
+
+    while x.len() < 8
+            {
+                x = format!("0{x}");
+            }
+    println!("{x}");
+    x = format!("1{x}");
     println!("{x}");
 }
 
