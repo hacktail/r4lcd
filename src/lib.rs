@@ -70,7 +70,7 @@ pub fn mvc(pins: &mut Pins, x: u8)
     let mut x: String = x.iter().map(ToString::to_string).collect();
     println!("{x}");
 
-    while x.len() < 8
+    while x.len() < 7
             {
                 x = format!("0{x}");
             }
