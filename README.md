@@ -13,7 +13,8 @@ A rust library for writing to hd44780 or hd44780 compatible dot matrix lcds, lik
 
     
 >Upcomming functions:
-  >>use whatever gpio pins you want
+  >>use whatever gpio pins you want  
+  >>shift display
 
 >Funtions that I may add later:
   >>4-bit mode  
