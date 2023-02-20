@@ -66,7 +66,7 @@ pub fn mvc(pins: &mut Pins, mut x: u8, y: u8)
 {
     pins.rs.set_low();
     if y == 1 {
-        x+=47;
+        x+=64;
     }
     let x = decimals_to_binary(&vec![x]).unwrap();
     let mut x: String = x.iter().map(ToString::to_string).collect();
