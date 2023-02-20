@@ -76,7 +76,7 @@ pub fn mvc(pins: &mut Pins, x: u8)
             }
     println!("{x}");
     x = format!("1{x}");
-    println!("{x}");
+    bwrite(pins, x.as_str());
 }
 
 //pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
