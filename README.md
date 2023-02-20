@@ -9,7 +9,7 @@ An unfinished rust library for writing to hd44780 or hd44780 compatible dot matr
   >>writing directly to the lcd using binary
   >>Full 2-line support
   >>change begin settings
-  >>moving cursor using coordinates like (2,4), currently switching between lines doesn't work unless you set the coordinates to like (40,0)
+  >>moving cursor using coordinates like (4,1)
 
     
 >Upcomming functions:
@@ -33,5 +33,9 @@ to your `Cargo.toml`.
 
 This project will be added to `crates.io` when all the `"Upcomming functions"` have been added.
 
+
+### Instructions
+upcoming instructions
+will be added tomorrow
 
 ## Please use this with love <3 :3
