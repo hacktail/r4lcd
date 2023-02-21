@@ -28,7 +28,7 @@ pub enum Settings {
     Power(bool),
     DisplayLines(i8),
 }
-static mut CURSOR_POSITION: (i16, i16) = (0, 0); // (x,y)
+static mut CURSOR_POSITION: (u8, u8) = (0, 0); // (x,y)
 
 static mut SETTINGS: (Settings, Settings, Settings) = (
     Settings::Cursor(CursorModes::Off),
@@ -53,7 +53,7 @@ impl Pins {
         }
     }
 }
-pub fn cursor_position()-> (i16,i16){
+pub fn cursor_position()-> (u8,u8){
     unsafe {CURSOR_POSITION}
 }
 pub fn home(pins: &mut Pins) {
@@ -64,6 +64,8 @@ pub fn home(pins: &mut Pins) {
 
 pub fn mvc(pins: &mut Pins, mut x: u8, y: u8)
 {
+    unsafe{CURSOR_POSITION = (x,y);};
+
     pins.rs.set_low();
     if y == 1 {
         x+=64;
@@ -79,54 +81,10 @@ pub fn mvc(pins: &mut Pins, mut x: u8, y: u8)
     println!("{x}");
     x = format!("1{x}");
     bwrite(pins, x.as_str());
+
 }
 
-//pub fn mvc(pins: &mut Pins, x: i16, y: i16) {
-//    if x < 0 || y < 0 {
-//        panic!("the coordinates are lower then 0: x={}, y={}", x, y);
-//    } else {
-//        unsafe {
-//            // moving x
-//            pins.rs.set_low();
-//
-//            while CURSOR_POSITION.0 < x {
-//                bwrite(pins, "00010100");
-//                CURSOR_POSITION.0 += 1;
-//                println!(
-//                    "cursor position = ({},{})",
-//                    CURSOR_POSITION.0, CURSOR_POSITION.1
-//                );
-//            }
-//            while CURSOR_POSITION.0 > x {
-//                bwrite(pins, "00010000");
-//                CURSOR_POSITION.0 -= 1;
-//                println!(
-//                    "cursor position = ({},{})",
-//                    CURSOR_POSITION.0, CURSOR_POSITION.1
-//                );
-//            }
-//            // moving y
-//            if SETTINGS.2 != Settings::DisplayLines(1) {
-//                while CURSOR_POSITION.1 < y {
-//                    bwrite(pins, "00011100");
-//                    CURSOR_POSITION.1 += 1;
-//                    println!(
-//                        "cursor position = ({},{})",
-//                        CURSOR_POSITION.0, CURSOR_POSITION.1
-//                    );
-//                }
-//                while CURSOR_POSITION.1 > y {
-//                    bwrite(pins, "00011000");
-//                    CURSOR_POSITION.1 -= 1;
-//                    println!(
-//                        "cursor position = ({},{})",
-//                        CURSOR_POSITION.0, CURSOR_POSITION.1
-//                    );
-//                }
-//            }
-//        }
-//    }
-//}
+
 
 
 pub fn settings(pins: &mut Pins, cursor_mode: CursorModes, power: Settings) {
