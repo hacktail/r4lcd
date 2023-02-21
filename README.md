@@ -12,7 +12,8 @@ A rust library for writing to hd44780 or hd44780 compatible dot matrix lcds, lik
   >>moving cursor using coordinates like (4,1)
 
     
->Upcomming functions:
+>Upcomming functions:  
+  >>remaking bwrite
   >>use whatever gpio pins you want  
   >>shift display
 
