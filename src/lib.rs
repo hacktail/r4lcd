@@ -173,7 +173,7 @@ pub fn write(pins: &mut Pins, text: &str)
 */
 pub fn bbwrite(pins: &mut Pins, bits: u8)
 {
-    pins.d0.write(Level::from(bits & PIN_FLAGS[0]));
+    /*pins.d0.write(Level::from(bits & PIN_FLAGS[0]));
     pins.d1.write(Level::from(bits & PIN_FLAGS[1]));
     pins.d2.write(Level::from(bits & PIN_FLAGS[2]));
     pins.d3.write(Level::from(bits & PIN_FLAGS[3]));
@@ -181,9 +181,11 @@ pub fn bbwrite(pins: &mut Pins, bits: u8)
     pins.d5.write(Level::from(bits & PIN_FLAGS[5]));
     pins.d6.write(Level::from(bits & PIN_FLAGS[6]));
     pins.d7.write(Level::from(bits & PIN_FLAGS[7]));
+    */
+    println!("{}", bits & PIN_FLAGS[0]);
 
     sleep(Duration::from_millis(30));
-    pulse(pins);
+    //pulse(pins);
 }
 
 pub fn bwrite(pins: &mut Pins, bits: &str) {
