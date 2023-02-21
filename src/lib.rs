@@ -186,7 +186,7 @@ pub fn bbwrite(pins: &mut Pins, bits: u8)
 
     
         println!("a{:b}", bits & PIN_FLAGS[7]);
-        println!("b{:b}",0b10000000 | bits);
+        println!("b{:b}",bits | 0b10000000);
 
     sleep(Duration::from_millis(30));
     pulse(pins);
