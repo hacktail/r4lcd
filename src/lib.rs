@@ -156,7 +156,7 @@ pub fn write(pins: &mut Pins, text: &str)
     for bits in binary_text{
         println!("d{bits}");
         println!("dd{}", bits as u8);
-        bbwrite(pins, bits);
+        bbwrite(pins, bits as u8);
     }
 }
 
