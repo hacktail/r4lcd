@@ -6,7 +6,7 @@ use ascii_converter::*;
 use std::thread::sleep;
 use std::time::Duration;
 
-static PIN_FLAGS: [u8; 8] = [0b10000000,0b01000000,0b00100000,0b00010000,0b00001000,0b00000100,0b00000010,0b00000001];
+static PIN_FLAGS: [u8; 8] = [0b00000001,0b00000010,0b00000100,0b00001000,0b00010000,0b00100000,0b01000000,0b10000000];
 
 pub struct Pins {
     pub d0: OutputPin,
