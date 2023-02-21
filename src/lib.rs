@@ -6,7 +6,7 @@ use ascii_converter::*;
 use std::thread::sleep;
 use std::time::Duration;
 
-static PIN_FLAGS: [u32; 8] = [00000001,00000010,00000100,00001000,00010000,00100000,01000000,10000000];
+static PIN_FLAGS: [u8; 8] = [0b00000001,0b00000010,0b00000100,0b00001000,0b00010000,0b00100000,0b01000000,0b10000000];
 
 pub struct Pins {
     pub d0: OutputPin,
@@ -172,8 +172,9 @@ pub fn write(pins: &mut Pins, text: &str)
     }
 }
 */
-pub fn bbwrite(pins: &mut Pins, bits: u32)
+pub fn bbwrite(pins: &mut Pins, bits: u8)
 {
+
     pins.d0.write(Level::from((bits & PIN_FLAGS[0]) as u8));
     pins.d1.write(Level::from((bits & PIN_FLAGS[1]) as u8));
     pins.d2.write(Level::from((bits & PIN_FLAGS[2]) as u8));
@@ -184,7 +185,7 @@ pub fn bbwrite(pins: &mut Pins, bits: u32)
     pins.d7.write(Level::from((bits & PIN_FLAGS[7]) as u8));
 
     
-        println!("0b{}", bits & PIN_FLAGS[7]);
+        println!("{:b}", bits & PIN_FLAGS[7]);
         println!("{}",10000000 | bits);
 
     sleep(Duration::from_millis(30));
