@@ -181,6 +181,8 @@ pub fn bbwrite(pins: &mut Pins, bits: u8)
     pins.d6.write(Level::from(bits & PIN_FLAGS[6]));
     pins.d7.write(Level::from(bits & PIN_FLAGS[7]));
 
+    sleep(Duration::from_millis(30));
+    pulse(pins);
 }
 
 pub fn bwrite(pins: &mut Pins, bits: &str) {
