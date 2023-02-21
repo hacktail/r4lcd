@@ -184,7 +184,13 @@ pub fn bbwrite(pins: &mut Pins, bits: u8)
     pins.d6.write(Level::from((bits & PIN_FLAGS[6]) as u8));
     pins.d7.write(Level::from((bits & PIN_FLAGS[7]) as u8));
 
-    
+    println!("a{:b}", bits & PIN_FLAGS[0]);
+        println!("a{:b}", bits & PIN_FLAGS[1]);
+        println!("a{:b}", bits & PIN_FLAGS[2]);
+        println!("a{:b}", bits & PIN_FLAGS[3]);
+        println!("a{:b}", bits & PIN_FLAGS[4]);
+        println!("a{:b}", bits & PIN_FLAGS[5]);
+        println!("a{:b}", bits & PIN_FLAGS[6]);
         println!("a{:b}", bits & PIN_FLAGS[7]);
         println!("b{:b}",bits | 0b10000000);
 
