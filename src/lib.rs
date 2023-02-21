@@ -183,9 +183,9 @@ pub fn bbwrite(pins: &mut Pins, bits: u32)
     pins.d6.write(Level::from((bits & PIN_FLAGS[6]) as u8));
     pins.d7.write(Level::from((bits & PIN_FLAGS[7]) as u8));
 
-    for i in 1..=8{
-        println!("0b{}", bits & PIN_FLAGS[i]);
-    }
+    
+        println!("0b{}", bits & PIN_FLAGS[7]);
+
     sleep(Duration::from_millis(30));
     pulse(pins);
 }
