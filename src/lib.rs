@@ -1,9 +1,13 @@
 use rppal;
 use rppal::gpio::OutputPin;
+use rppal::gpio::Level;
 
 use ascii_converter::*;
 use std::thread::sleep;
 use std::time::Duration;
+
+static PIN_FLAGS: [u8; 8] = [0b10000000,0b01000000,0b00100000,0b00010000,0b00001000,0b00000100,0b00000010,0b00000001];
+
 pub struct Pins {
     pub d0: OutputPin,
     pub d1: OutputPin,
@@ -144,7 +148,17 @@ fn pulse(pins: &mut Pins) {
     pins.en.set_low();
 }
 
-pub fn write(pins: &mut Pins, text: &str) {
+pub fn write(pins: &mut Pins, text: &str)
+{
+    pins.rs.set_high();
+    let binary_text = string_to_binary(text).unwrap();
+
+    for bits in binary_text{
+        bbwrite(pins, 8 as u8);
+    }
+}
+
+/*pub fn write(pins: &mut Pins, text: &str) {
     pins.rs.set_high();
     let binary_text = string_to_binary(text).unwrap();
     for c in binary_text {
@@ -154,6 +168,19 @@ pub fn write(pins: &mut Pins, text: &str) {
             bwrite(pins, format!("0{}", c).as_str());
         }
     }
+}
+*/
+pub fn bbwrite(pins: &mut Pins, bits: u8)
+{
+    pins.d0.write(Level::from(bits & PIN_FLAGS[0]));
+    pins.d1.write(Level::from(bits & PIN_FLAGS[1]));
+    pins.d2.write(Level::from(bits & PIN_FLAGS[2]));
+    pins.d3.write(Level::from(bits & PIN_FLAGS[3]));
+    pins.d4.write(Level::from(bits & PIN_FLAGS[4]));
+    pins.d5.write(Level::from(bits & PIN_FLAGS[5]));
+    pins.d6.write(Level::from(bits & PIN_FLAGS[6]));
+    pins.d7.write(Level::from(bits & PIN_FLAGS[7]));
+
 }
 
 pub fn bwrite(pins: &mut Pins, bits: &str) {
