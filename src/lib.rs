@@ -62,7 +62,7 @@ pub fn cursor_position()-> (u8,u8){
 }
 pub fn home(pins: &mut Pins) {
     pins.rs.set_low();
-    bwrite(pins, "00000010");
+    bwrite(pins, 0b00000010);
     sleep(Duration::from_millis(2));
 }
 
@@ -74,17 +74,12 @@ pub fn mvc(pins: &mut Pins, mut x: u8, y: u8)
     if y == 1 {
         x+=64;
     }
-    let x = decimals_to_binary(&vec![x]).unwrap();
-    let mut x: String = x.iter().map(ToString::to_string).collect();
+    if x < 128 {panic!("to big number");};
+x+=128;
     println!("{x}");
 
-    while x.len() < 7
-            {
-                x = format!("0{x}");
-            }
-    println!("{x}");
-    x = format!("1{x}");
-    bwrite(pins, x.as_str());
+
+    bwrite(pins, x);
 
 }
 
@@ -96,15 +91,15 @@ pub fn settings(pins: &mut Pins, cursor_mode: CursorModes, power: Settings) {
 
     if power == Settings::Power(true) {
         match cursor_mode {
-            CursorModes::On => bwrite(pins, "00001110"),
-            CursorModes::Blink => bwrite(pins, "00001111"),
-            CursorModes::Off => bwrite(pins, "00001100"),
+            CursorModes::On => bwrite(pins, 0b00001110),
+            CursorModes::Blink => bwrite(pins, 0b00001111),
+            CursorModes::Off => bwrite(pins, 0b00001100),
         }
     } else if power == Settings::Power(false) {
         match cursor_mode {
-            CursorModes::On => bwrite(pins, "00001010"),
-            CursorModes::Blink => bwrite(pins, "00001011"),
-            CursorModes::Off => bwrite(pins, "00001000"),
+            CursorModes::On => bwrite(pins, 0b00001010),
+            CursorModes::Blink => bwrite(pins, 0b00001011),
+            CursorModes::Off => bwrite(pins, 0b00001000),
         }
     } else {
         println!("'{power:?}' is an invalid option")
@@ -122,10 +117,10 @@ pub fn begin(pins: &mut Pins, display_lines: i8 /*, bits: i8 */) {
 
     match display_lines {
         1 => {
-            bwrite(pins, "00110000");
+            bwrite(pins, 0b00110000);
         }
         2 => {
-            bwrite(pins, "00111000");
+            bwrite(pins, 0b00111000);
         }
         _ => {
             panic!("'{}' is an invalid amount of display_lines", display_lines);
@@ -139,7 +134,7 @@ pub fn begin(pins: &mut Pins, display_lines: i8 /*, bits: i8 */) {
 
 pub fn clear(pins: &mut Pins) {
     pins.rs.set_low();
-    bwrite(pins, "00000001");
+    bwrite(pins, 0b00000001);
 }
 
 pub fn pulse(pins: &mut Pins) {
@@ -155,24 +150,11 @@ pub fn write(pins: &mut Pins, text: &str)
 
     for bits in binary_text{
         println!("writing {:b}", bits);
-        bbwrite(pins, bits);
-        pulse(pins);
+        bwrite(pins, bits);
     }
 }
 
-/*pub fn write(pins: &mut Pins, text: &str) {
-    pins.rs.set_high();
-    let binary_text = string_to_binary(text).unwrap();
-    for c in binary_text {
-        if c.to_string().len() < 7 {
-            bwrite(pins, format!("00{}", c).as_str());
-        } else if c.to_string().len() < 8 {
-            bwrite(pins, format!("0{}", c).as_str());
-        }
-    }
-}
-*/
-pub fn bbwrite(pins: &mut Pins, bits: u8)
+pub fn bwrite(pins: &mut Pins, bits: u8)
 {
 
     pins.d0.write(Level::from((bits & PIN_FLAGS[0]) as u8));
@@ -188,56 +170,8 @@ pub fn bbwrite(pins: &mut Pins, bits: u8)
         println!("b{:b}",bits | 0b10000000);
 
     sleep(Duration::from_millis(40));
-}
-
-pub fn bwrite(pins: &mut Pins, bits: &str) {
-    if pins.rs.is_set_high() {
-        unsafe {
-            CURSOR_POSITION.0 += 1;
-        }
-    }
-    println!("output: {}", bits);
-    if bits.chars().nth(7).unwrap() == '1' {
-        pins.d0.set_high();
-    } else {
-        pins.d0.set_low();
-    }
-
-    if bits.chars().nth(6).unwrap() == '1' {
-        pins.d1.set_high();
-    } else {
-        pins.d1.set_low();
-    }
-    if bits.chars().nth(5).unwrap() == '1' {
-        pins.d2.set_high();
-    } else {
-        pins.d2.set_low();
-    }
-    if bits.chars().nth(4).unwrap() == '1' {
-        pins.d3.set_high();
-    } else {
-        pins.d3.set_low();
-    }
-    if bits.chars().nth(3).unwrap() == '1' {
-        pins.d4.set_high();
-    } else {
-        pins.d4.set_low();
-    }
-    if bits.chars().nth(2).unwrap() == '1' {
-        pins.d5.set_high();
-    } else {
-        pins.d5.set_low();
-    }
-    if bits.chars().nth(1).unwrap() == '1' {
-        pins.d6.set_high();
-    } else {
-        pins.d6.set_low();
-    }
-    if bits.chars().nth(0).unwrap() == '1' {
-        pins.d7.set_high();
-    } else {
-        pins.d7.set_low();
-    }
-    sleep(Duration::from_millis(30));
     pulse(pins);
 }
+
+
+
