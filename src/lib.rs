@@ -142,7 +142,7 @@ pub fn clear(pins: &mut Pins) {
     bwrite(pins, "00000001");
 }
 
-fn pulse(pins: &mut Pins) {
+pub fn pulse(pins: &mut Pins) {
     pins.en.set_high();
     sleep(Duration::from_nanos(340));
     pins.en.set_low();
