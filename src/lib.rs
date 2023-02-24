@@ -151,11 +151,11 @@ pub fn pulse(pins: &mut Pins) {
 pub fn write(pins: &mut Pins, text: &str)
 {
     pins.rs.set_high();
-    let binary_text = string_to_binary(text).unwrap();
+    let binary_text = string_to_decimals(text).unwrap();
 
     for bits in binary_text{
         println!("writing {:b}", bits);
-        bbwrite(pins, bits as u8);
+        bbwrite(pins, bits);
         pulse(pins);
     }
 }
