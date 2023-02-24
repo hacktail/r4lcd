@@ -154,7 +154,6 @@ pub fn write(pins: &mut Pins, text: &str)
     let binary_text = string_to_binary(text).unwrap();
 
     for bits in binary_text{
-        println!("d{bits}");
         println!("dd{}", bits as u8);
         bbwrite(pins, bits as u8);
     }
