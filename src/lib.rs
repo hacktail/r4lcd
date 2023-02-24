@@ -20,25 +20,16 @@ pub struct Pins {
     pub rs: OutputPin,
     pub en: OutputPin,
 }
+
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
-pub enum CursorModes {
+pub enum Options {
     On,
-    Blink,
     Off,
-}
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
-pub enum Settings {
-    Cursor(CursorModes),
-    Power(bool),
-    DisplayLines(i8),
+    Blink,
 }
 static mut CURSOR_POSITION: (u8, u8) = (0, 0); // (x,y)
 
-static mut SETTINGS: (Settings, Settings, Settings) = (
-    Settings::Cursor(CursorModes::Off),
-    Settings::Power(false),
-    Settings::DisplayLines(1),
-);
 
 impl Pins {
     pub fn new() -> Self {
@@ -86,34 +77,31 @@ x+=128;
 
 
 
-pub fn settings(pins: &mut Pins, cursor_mode: CursorModes, power: Settings) {
+pub fn settings(pins: &mut Pins, cursor_mode: Options, power: Options) {
     pins.rs.set_low();
 
-    if power == Settings::Power(true) {
+    if power == Options::On {
         match cursor_mode {
-            CursorModes::On => bwrite(pins, 0b00001110),
-            CursorModes::Blink => bwrite(pins, 0b00001111),
-            CursorModes::Off => bwrite(pins, 0b00001100),
+            Options::On => bwrite(pins, 0b00001110),
+            Options::Blink => bwrite(pins, 0b00001111),
+            Options::Off => bwrite(pins, 0b00001100),
         }
-    } else if power == Settings::Power(false) {
+    } else if power == Options::Off
+    {
         match cursor_mode {
-            CursorModes::On => bwrite(pins, 0b00001010),
-            CursorModes::Blink => bwrite(pins, 0b00001011),
-            CursorModes::Off => bwrite(pins, 0b00001000),
+            Options::On => bwrite(pins, 0b00001010),
+            Options::Blink => bwrite(pins, 0b00001011),
+            Options::Off => bwrite(pins, 0b00001000),
         }
     } else {
         println!("'{power:?}' is an invalid option")
     }
-    unsafe {
-        SETTINGS.0 = Settings::Cursor(cursor_mode);
-        SETTINGS.1 = power;
-    };
 }
 
 pub fn begin(pins: &mut Pins, display_lines: i8 /*, bits: i8 */) {
     pins.rs.set_low();
 
-    unsafe {SETTINGS.2 = Settings::DisplayLines(display_lines);} 
+
 
     match display_lines {
         1 => {
@@ -128,8 +116,8 @@ pub fn begin(pins: &mut Pins, display_lines: i8 /*, bits: i8 */) {
     }
     clear(pins);
     home(pins);
-    settings(pins, CursorModes::Off, Settings::Power(true));
-    println!("finished setting up lcd");
+    settings(pins, Options::Off, Options::On);
+    println!("finished setting up lcd. Use 'lcd::Settings();' to change screen settings");
 }
 
 pub fn clear(pins: &mut Pins) {
