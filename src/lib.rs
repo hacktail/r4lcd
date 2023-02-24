@@ -74,7 +74,7 @@ pub fn mvc(pins: &mut Pins, mut x: u8, y: u8)
     if y == 1 {
         x+=64;
     }
-    if x < 128 {panic!("to big number");};
+    if x > 128 {panic!("to big number");};
 x+=128;
     println!("{x}");
 
