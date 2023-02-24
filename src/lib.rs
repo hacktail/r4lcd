@@ -2,7 +2,7 @@ use rppal;
 use rppal::gpio::OutputPin;
 use rppal::gpio::Level;
 
-use ascii_converter::*;
+use ascii_converter::string_to_decimals;
 use std::thread::sleep;
 use std::time::Duration;
 
