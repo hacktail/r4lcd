@@ -42,6 +42,6 @@ This project will be added to `crates.io` when all the `"Upcomming functions"` h
 
 
 ### Instructions
-Instructoins will be comming soong
+Instructions will be comming soong
 
 ## Please use this with love <3 :3
