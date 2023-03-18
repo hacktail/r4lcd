@@ -18,7 +18,7 @@
 
 >Funtions that I may add later:
   >>4-bit mode  
-  >>multi-display support  
+  >>multi-display support  ( mostly there, just some tweaks needed )
   >>suppport for screen with 4 lines ( I'll need an lcd with 4 lines first )
   
 ### How do I add this to my project?
