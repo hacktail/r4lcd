@@ -23,7 +23,7 @@ pub fn mvc(pins: &mut Pins, mut x: u8, y: u8)
 pub fn shiftd(pins: &mut Pins, dir: u8){
     match dir {
         0 => {
-            bwrite(pins, 0b101);
+            bwrite(pins, 0b11000);
         }
         1 => {
             bwrite(pins, 0b11100);
