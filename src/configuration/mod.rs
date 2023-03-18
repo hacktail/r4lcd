@@ -18,8 +18,7 @@ pub fn settings(pins: &mut Pins, cursor_mode: Options, power: Options) {
             Options::Blink => bwrite(pins, 0b00001111),
             Options::Off => bwrite(pins, 0b00001100),
         }
-    } else if power == Options::Off
-    {
+    } else if power == Options::Off {
         match cursor_mode {
             Options::On => bwrite(pins, 0b00001010),
             Options::Blink => bwrite(pins, 0b00001011),
@@ -34,8 +33,6 @@ pub fn settings(pins: &mut Pins, cursor_mode: Options, power: Options) {
 pub fn begin(pins: &mut Pins, display_lines: i8 /*, bits: i8 */) {
     pins.rs.set_low();
 
-
-
     match display_lines {
         1 => {
             bwrite(pins, 0b00110000);
@@ -44,7 +41,7 @@ pub fn begin(pins: &mut Pins, display_lines: i8 /*, bits: i8 */) {
             bwrite(pins, 0b00111000);
         }
         _ => {
-            panic!("'{}' is an invalid amount of display_lines", display_lines);
+            panic!("Invalid amount of display lines {}. Highest amount of display lines currently supported is 2", display_lines);
         }
     }
     clear(pins);
@@ -52,4 +49,3 @@ pub fn begin(pins: &mut Pins, display_lines: i8 /*, bits: i8 */) {
     settings(pins, Options::Off, Options::On);
     println!("finished setting up lcd. Use 'lcd::Settings();' to change screen settings");
 }
-
