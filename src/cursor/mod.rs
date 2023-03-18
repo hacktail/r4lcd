@@ -23,10 +23,10 @@ pub fn mvc(pins: &mut Pins, mut x: u8, y: u8)
 pub fn shiftd(pins: &mut Pins, dir: u8){
     match dir {
         0 => {
-            bwrite(pins, 0b10000);
+            bwrite(pins, 0b101);
         }
         1 => {
-            bwrite(pins, 0b10100);
+            bwrite(pins, 0b11100);
         }
         _ => {
             panic!("Invalid direction '{}', 1 is right and 0 is left", dir);
