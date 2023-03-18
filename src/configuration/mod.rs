@@ -1,6 +1,6 @@
 use crate::*;
 
-// This is for choosing, we can't always use bools, because sometimes I might need an "in-the-middle" option. So I made this one enum to controll multiple choice stuff
+// We can't always use bools, because sometimes I might need an "in-the-middle" option. So I made this one enum to controll multiple choice stuff
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Options {
     On,
