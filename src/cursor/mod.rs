@@ -6,7 +6,7 @@ pub fn mvc(pins: &mut Pins, mut x: u8, y: u8)
 {
     pins.rs.set_low();
 
-    // because there isn't an actual real y coordinate in the lcd, you have to just add 64 to skip lines displays
+    // because there isn't an actual real y coordinate in the lcd, you have to just add 64 to skip two lines on the display
     // the reason we're skipping two lines is because the HD44780 is designed for 4 lines, and the two line displays bascially skip the two in the middle
     if y == 1 {
         x+=64;
