@@ -1,10 +1,5 @@
 # r4lcd
-
-## A NEW UPDATE COMING SOON WHICH WILL INCLUDE ERROR HANDLING
-
-
-
-A rust library for writing to hd44780 or hd44780 compatible dot matrix lcds, like the 1602.
+## A rust library for writing to hd44780 or hd44780 compatible dot matrix lcds, like the 1602.
 
 >Current functions:  
   >>writing strings  
@@ -12,15 +7,14 @@ A rust library for writing to hd44780 or hd44780 compatible dot matrix lcds, lik
   >>clear screen  
   >>changing settings  
   >>writing directly to the lcd using binary
-  >>Full 2-line support
+  >>Full 2-line and 1-line support
   >>change begin settings
-  >>moving cursor using coordinates like (4,1)
-
-    
->Upcomming functions:   
-  >>adding error handling
-  >>use whatever gpio pins you want  
+  >>moving cursor using coordinates (x,y)
   >>shift display
+    
+>Upcomming functions:
+  >>use whatever gpio pins you want  
+
 
 >Funtions that I may add later:
   >>4-bit mode  
