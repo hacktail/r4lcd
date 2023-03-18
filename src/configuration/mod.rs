@@ -1,13 +1,14 @@
 use crate::*;
 
+// This is for choosing, we can't always use bools, because sometimes I might need an "in-the-middle" option. So I made this one enum to controll multiple choice stuff
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Options {
     On,
     Off,
     Blink,
 }
-pub static mut CURSOR_POSITION: (u8, u8) = (0, 0); // (x,y)
 
+// setts different settings for the lcd
 pub fn settings(pins: &mut Pins, cursor_mode: Options, power: Options) {
     pins.rs.set_low();
 
@@ -29,6 +30,7 @@ pub fn settings(pins: &mut Pins, cursor_mode: Options, power: Options) {
     }
 }
 
+// sets up the lcd with some basic things
 pub fn begin(pins: &mut Pins, display_lines: i8 /*, bits: i8 */) {
     pins.rs.set_low();
 

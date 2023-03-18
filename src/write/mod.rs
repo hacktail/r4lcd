@@ -1,17 +1,8 @@
 use crate::*;
 
-pub fn write(pins: &mut Pins, text: &str)
-{
-    pins.rs.set_high();
-    let binary_text = string_to_decimals(text).unwrap();
-
-    for bits in binary_text{
-        println!("writing {:b}", bits);
-        bwrite(pins, bits);
-    }
-}
-
-pub fn bwrite(pins: &mut Pins, bits: u8)
+// takes in an u8 and checks if pin should be on or not by comparing the u8 and PIN_FLAGS using a bitwise and
+// write(Level::from(<u8>)) turns on the pin if the u8 is bigger than 0, otherwise it turns the pin off
+pub fn bwrite(pins: &mut Pins, bits: u8)// "Binary Write"
 {
 
     pins.d0.write(Level::from((bits & PIN_FLAGS[0]) as u8));
@@ -28,5 +19,34 @@ pub fn bwrite(pins: &mut Pins, bits: u8)
 
     sleep(Duration::from_millis(40));
     pulse(pins);
+}
+
+
+
+// Converts the &str into ascii character codes
+pub fn write(pins: &mut Pins, text: &str)
+{
+
+    pins.rs.set_high();
+    let binary_text = string_to_decimals(text).unwrap();
+
+    for bits in binary_text{
+        println!("writing {:b}", bits);
+        bwrite(pins, bits);
+    }
+}
+
+
+// pulses the lcd enable pin, basically single stepping a clock
+pub fn pulse(pins: &mut Pins) {
+    pins.en.set_high();
+    sleep(Duration::from_nanos(340));
+    pins.en.set_low();
+}
+
+// clears the lcd
+pub fn clear(pins: &mut Pins) {
+    pins.rs.set_low();
+    bwrite(pins, 0b00000001);
 }
 
