@@ -21,6 +21,7 @@ pub fn mvc(pins: &mut Pins, mut x: u8, y: u8)
 
 }
 pub fn shiftd(pins: &mut Pins, dir: u8){
+    pins.rs.set_low();
     match dir {
         0 => {
             bwrite(pins, 0b11000);
