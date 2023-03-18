@@ -36,6 +36,6 @@ This project will be added to `crates.io` when all the `"Upcomming functions"` h
 
 
 ### Instructions
-Instructions will be comming soong
+There is an unfinnished [wiki](https://github.com/hacktail/r4lcd/wiki)
 
 ## Please use this with love <3 :3
