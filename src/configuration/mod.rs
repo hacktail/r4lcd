@@ -33,22 +33,6 @@ pub fn settings(pins: &mut Pins, cursor_mode: CursorMode, power_mode: PowerMode)
         pins,
         CONFIGURATION_LUT[2*(cursor_mode as usize) + (power_mode as usize)]
             )
-
-
-
-//    if power == PowerMode::On {
-//        match cursor_mode {
-//            CursorMode::On => bwrite(pins, 0b00001110),
-//            CursorMode::Blink => bwrite(pins, 0b00001111),
-//            CursorMode::Off => bwrite(pins, 0b00001100),
-//        }
-//    } else if power == PowerMode::Off {
-//        match cursor_mode {
-//            CursorMode::On => bwrite(pins, 0b00001010),
-//            CursorMode::Blink => bwrite(pins, 0b00001011),
-//            CursorMode::Off => bwrite(pins, 0b00001000),
-//        }
-//    }
 }
 
 // sets up the lcd with basic configuration
