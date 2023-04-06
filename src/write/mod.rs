@@ -2,6 +2,9 @@ use crate::*;
 
 // takes in an u8 and checks if pin should be on or not by comparing the u8 and PIN_FLAGS using a bitwise and
 // write(Level::from(<u8>)) turns on the pin if the u8 is bigger than 0, otherwise it turns the pin off
+
+/// Writes a byte to the lcd.
+/// Do not mess with this unless you know what you're doing
 pub fn bwrite(pins: &mut Pins, bits: u8)// "Binary Write"
 {
 
@@ -23,7 +26,7 @@ pub fn bwrite(pins: &mut Pins, bits: u8)// "Binary Write"
 
 
 
-// Converts the &str into ascii character codes
+/// Writes a &str to the lcd
 pub fn write(pins: &mut Pins, text: &str)
 {
 
@@ -37,14 +40,15 @@ pub fn write(pins: &mut Pins, text: &str)
 }
 
 
-// pulses the lcd enable pin, basically single stepping a clock
+/// Pulses the enable pin on the lcd, which updates the lcd.
+/// Do not screw around with this unless you know what you're doing
 pub fn pulse(pins: &mut Pins) {
     pins.en.set_high();
     sleep(Duration::from_nanos(340));
     pins.en.set_low();
 }
 
-// clears the lcd
+/// clears the lcd
 pub fn clear(pins: &mut Pins) {
     pins.rs.set_low();
     bwrite(pins, 0b00000001);

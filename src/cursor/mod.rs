@@ -1,7 +1,7 @@
 use crate::*;
 
 
-// moves the cursor the the wanted position
+/// moves the cursor the the wanted position
 pub fn mvc(pins: &mut Pins, mut x: u8, y: u8)
 {
     pins.rs.set_low();
@@ -20,6 +20,9 @@ pub fn mvc(pins: &mut Pins, mut x: u8, y: u8)
     bwrite(pins, x);
 
 }
+
+/// Shifts the scren left or right.
+/// 0 = left, 1 = right
 pub fn shiftd(pins: &mut Pins, dir: u8){
     pins.rs.set_low();
     match dir {
@@ -37,7 +40,7 @@ pub fn shiftd(pins: &mut Pins, dir: u8){
 
 
 
-// sets the cursor position to 0
+/// sets the cursor position to 0
 pub fn home(pins: &mut Pins) {
     pins.rs.set_low();
     bwrite(pins, 0b00000010);

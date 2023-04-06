@@ -1,19 +1,6 @@
 use crate::*;
 
-#[repr(u8)]
-pub enum PowerMode {
-    Off = 0,
-    On = 1,
-
-}
-
-// We can't always use bools, because sometimes I might need an "in-the-middle" option. So I made this one enum to controll multiple choice stuff
-#[repr(u8)]
-pub enum CursorMode {
-    Off = 0,
-    On = 1,
-    Blink = 2,
-}
+// This look up table is used to make it easier to configure the display
 static CONFIGURATION_LUT: [u8; 6] = [
     0b0000_1000, // Power off, cursor off
     0b0000_1100, // Power on, cursor off
@@ -25,7 +12,26 @@ static CONFIGURATION_LUT: [u8; 6] = [
 
 
 
-// setts Cursor mode and PowerMode for the lcd
+
+/// This enum contains the available screen modes.
+#[repr(u8)]
+pub enum PowerMode {
+    Off = 0,
+    On = 1,
+
+}
+
+/// This enum contains the available cursor modes
+#[repr(u8)]
+pub enum CursorMode {
+    Off = 0,
+    On = 1,
+    Blink = 2,
+}
+
+
+
+/// configures the cursor mode and the power mode
 pub fn settings(pins: &mut Pins, cursor_mode: CursorMode, power_mode: PowerMode) {
     pins.rs.set_low();
 
@@ -35,7 +41,8 @@ pub fn settings(pins: &mut Pins, cursor_mode: CursorMode, power_mode: PowerMode)
             )
 }
 
-// sets up the lcd with basic configuration
+
+/// This function has to be run before using an lcd, it configures the basic options for the lcd.
 pub fn begin(pins: &mut Pins, display_lines: i8 /*, bits: i8 */) {
     pins.rs.set_low();
 
