@@ -7,13 +7,16 @@ pub(crate) use ascii_converter::string_to_decimals;
 pub(crate) use std::thread::sleep;
 pub(crate) use std::time::Duration;
 pub mod pins;
-pub use pins::*;
+pub(crate) use pins::*;
 pub mod configuration;
-pub use configuration::*;
+
+#[allow(unused_imports)]
+pub(crate) use configuration::*;
+
 pub mod write;
-pub use write::*;
+pub(crate) use write::*;
 pub mod cursor;
-pub use cursor::*;
+pub(crate) use cursor::*;
 
 
 
