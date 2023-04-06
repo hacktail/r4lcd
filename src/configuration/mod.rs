@@ -1,38 +1,54 @@
 use crate::*;
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[repr(u8)]
 pub enum PowerMode {
-    On,
-    Off,
+    Off = 0,
+    On = 1,
+
 }
 
 // We can't always use bools, because sometimes I might need an "in-the-middle" option. So I made this one enum to controll multiple choice stuff
-
+#[repr(u8)]
 pub enum CursorMode {
-    On,
-    Off,
-    Blink
+    Off = 0,
+    On = 1,
+    Blink = 2,
 }
+static CONFIGURATION_LUT: [u8; 6] = [
+    0b0000_1000, // Power off, cursor off
+    0b0000_1100, // Power on, cursor off
+    0b0000_1010, // Power off, cursor on
+    0b0000_1110, // Power on, cursor on
+    0b0000_1011, // Power off, cursor blink
+    0b0000_1111, // Power on, cursor blink
+    ];
+
+
 
 // setts Cursor mode and PowerMode for the lcd
-pub fn settings(pins: &mut Pins, cursor_mode: CursorMode, power: PowerMode) {
+pub fn settings(pins: &mut Pins, cursor_mode: CursorMode, power_mode: PowerMode) {
     pins.rs.set_low();
 
-    if power == PowerMode::On {
-        match cursor_mode {
-            CursorMode::On => bwrite(pins, 0b00001110),
-            CursorMode::Blink => bwrite(pins, 0b00001111),
-            CursorMode::Off => bwrite(pins, 0b00001100),
-        }
-    } else if power == PowerMode::Off {
-        match cursor_mode {
-            CursorMode::On => bwrite(pins, 0b00001010),
-            CursorMode::Blink => bwrite(pins, 0b00001011),
-            CursorMode::Off => bwrite(pins, 0b00001000),
-        }
-    } else {
-        println!("'{power:?}' is an invalid option")
-    }
+    bwrite(
+        pins,
+        CONFIGURATION_LUT[2*(cursor_mode as usize) + (power_mode as usize)]
+            )
+
+
+
+//    if power == PowerMode::On {
+//        match cursor_mode {
+//            CursorMode::On => bwrite(pins, 0b00001110),
+//            CursorMode::Blink => bwrite(pins, 0b00001111),
+//            CursorMode::Off => bwrite(pins, 0b00001100),
+//        }
+//    } else if power == PowerMode::Off {
+//        match cursor_mode {
+//            CursorMode::On => bwrite(pins, 0b00001010),
+//            CursorMode::Blink => bwrite(pins, 0b00001011),
+//            CursorMode::Off => bwrite(pins, 0b00001000),
+//        }
+//    }
 }
 
 // sets up the lcd with basic configuration
