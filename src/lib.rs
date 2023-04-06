@@ -1,9 +1,11 @@
-pub use rppal;
-pub use rppal::gpio::OutputPin;
-pub use rppal::gpio::Level;
-pub use ascii_converter::string_to_decimals;
-pub use std::thread::sleep;
-pub use std::time::Duration;
+
+
+pub(crate) use rppal;
+pub(crate) use rppal::gpio::OutputPin;
+pub(crate) use rppal::gpio::Level;
+pub(crate) use ascii_converter::string_to_decimals;
+pub(crate) use std::thread::sleep;
+pub(crate) use std::time::Duration;
 pub mod pins;
 pub use pins::*;
 pub mod configuration;
