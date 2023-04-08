@@ -17,7 +17,7 @@ pub fn bwrite(pins: &mut Pins, bits: u8)// "Binary Write"
     pins.d6.write(Level::from((bits & PIN_FLAGS[6]) as u8));
     pins.d7.write(Level::from((bits & PIN_FLAGS[7]) as u8));
 
-    sleep(Duration::from_millis(3));
+    sleep(Duration::from_millis(1));
     pulse(pins);
 }
 
