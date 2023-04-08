@@ -2,7 +2,7 @@ use crate::*;
 
 
 /// moves the cursor the the wanted position
-pub fn mvc(pins: &mut Pins, mut x: u8, y: u8)
+pub fn mvc(pins: &mut Pins, mut x: u8, y: u8) -> Result<(), &str>
 {
     pins.rs.set_low();
 
@@ -12,18 +12,15 @@ pub fn mvc(pins: &mut Pins, mut x: u8, y: u8)
         x+=64;
     }
 
-    if x > 128 {panic!("to big number");};
+    if x > 128 {return Err("wow")};
     x+=128;
-    println!("{x}");
-
-
     bwrite(pins, x);
-
+Ok(())
 }
 
 /// Shifts the scren left or right.
 /// 0 = left, 1 = right
-pub fn shiftd(pins: &mut Pins, dir: u8){
+pub fn shiftd(pins: &mut Pins, dir: u8) -> Result<(), &str>{
     pins.rs.set_low();
     match dir {
         0 => {
@@ -33,9 +30,10 @@ pub fn shiftd(pins: &mut Pins, dir: u8){
             bwrite(pins, 0b11100);
         }
         _ => {
-            panic!("Invalid direction '{}', 1 is right and 0 is left", dir);
+            return Err("Invalid direction");
         }
     }
+Ok(())
 }
 
 

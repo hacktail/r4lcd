@@ -60,5 +60,4 @@ pub fn begin(pins: &mut Pins, display_lines: i8 /*, bits: i8 */) {
     clear(pins);
     home(pins);
     settings(pins, CursorMode::Off, PowerMode::On);
-    println!("finished setting up lcd. Use 'lcd::Settings();' to change screen settings");
 }
