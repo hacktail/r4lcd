@@ -48,5 +48,6 @@ pub fn pulse(pins: &mut Pins) {
 pub fn clear(pins: &mut Pins) {
     pins.rs.set_low();
     bwrite(pins, 0b00000001);
+    sleep(Duration::from_millis(36));
 }
 
