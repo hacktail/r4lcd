@@ -31,7 +31,7 @@ fn main() {
     // and sends us back a struct with the configured pins
     // this struct is used to tell which pins the functions are going to use
     // you can think of these group of pins as an lcd, if you declare multiple pins then you can use multiple lcds
-    let mut my_lcd = lcd::pins::Pins::new(pins).expect("Couldn't get pin");
+    let mut my_lcd = lcd::pins::Pins::new(pins).expect("Couldn't get pins");
 
     // begin() sets up the lcd. The second argument is the amount of display lines your display has. Currently only 1 and 2 lines are supported
     lcd::configuration::begin(&mut my_lcd, 2);
