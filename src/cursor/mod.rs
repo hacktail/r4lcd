@@ -42,7 +42,7 @@ Ok(())
 pub fn home(pins: &mut Pins) {
     pins.rs.set_low();
     bwrite(pins, 0b00000010);
-    sleep(Duration::from_millis(2));
+    sleep(Duration::from_millis(1));
 }
 
 
