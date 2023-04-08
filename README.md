@@ -29,22 +29,23 @@ fn main() {
     
     // Pins::new take in the pins we defined, configures them
     // and sends us back a struct with the configured pins
-    // this struct is used to tell which lcd the functions are going to use
-    let mut my_lcd = lcd::pins::Pins::new(pins);
+    // this struct is used to tell which pins the functions are going to use
+    // you can think of these group of pins as an lcd, if you declare multiple pins then you can use multiple lcds
+    let mut my_lcd = lcd::pins::Pins::new(pins).expect("Couldn't get pin");
 
-    // begin() sets up the lcd. It takes in two arguments, which lcd and how many display lines the lcd has
+    // begin() sets up the lcd. The second argument is the amount of display lines your display has. Currently only 1 and 2 lines are supported
     lcd::configuration::begin(&mut my_lcd, 2);
     
-    // this configures the lcd have blinking cursors and that the power to the screen should be on
+    // this configures the lcd to have blinking cursors and that the power to the screen should be on
     lcd::configuration::settings(&mut my_lcd, CursorMode::Blink, PowerMode::On);
 
     // here we write "Wowie!" to the scren
     lcd::write::write(&mut my_lcd, "Wowie!");
-    
+
     // mvc, which means "move cursor", moves the cursor the the x and y coordinates on the screen.
     // here we're moving the cursor to column 3 row 2 
     lcd::cursor::mvc(&mut my_lcd, 2, 1); // the function uses index numbers
-    
+
     // here we write "2 lines :0" on the second line
     lcd::write::write(&mut my_lcd, "2 lines :o");
 }
@@ -67,6 +68,6 @@ I just want to polish r4lcd first :3
 
 
 ### Instructions
-There is an unfinnished [wiki](https://github.com/hacktail/r4lcd/wiki)
+WIP
 
 ## Please use this with love <3 :3
