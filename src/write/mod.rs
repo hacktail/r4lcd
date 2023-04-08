@@ -31,7 +31,6 @@ pub fn write(pins: &mut Pins, text: &str)
     let binary_text = string_to_decimals(text).unwrap_or(vec![0b00111111]);
 
     for bits in binary_text{
-        println!("writing {:b}", bits);
         bwrite(pins, bits);
     }
 }
