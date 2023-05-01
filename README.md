@@ -67,7 +67,8 @@ I just want to polish r4lcd first :3
 ### Todo
 >> wrapp the pins stuct to make it less confusing and prohibit the user from toggling the pins directly    
 >
->> reduce the amount of struct to 1 to make it less confusing for the user    
+>> reduce the amount of struct to 1 to make it less confusing for the user
+>    
 >> add documentation    
 >
 >> 4-bit mode    
